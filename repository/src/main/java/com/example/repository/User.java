@@ -1,4 +1,4 @@
-package user.repository;
+package com.example.repository;
 
 import java.util.Random;
 
