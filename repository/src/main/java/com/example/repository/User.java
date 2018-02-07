@@ -10,6 +10,11 @@ public class User {
         id = new Random().nextInt(Integer.MAX_VALUE);
     }
 
+    public User(String name) {
+        this();
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
