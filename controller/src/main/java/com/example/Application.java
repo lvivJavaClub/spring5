@@ -1,14 +1,34 @@
 package com.example;
 
+import reactor.core.publisher.Mono;
+
+import com.example.controller.UserController;
 import com.example.repository.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.GenericApplicationContext;
-import com.example.controller.UserController;
+import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.function.server.RequestPredicates;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
+
 
 @SpringBootApplication
+@EnableWebFlux
 public class Application {
+
+    @Bean
+    RouterFunction<ServerResponse> helloRouterFunction() {
+        RouterFunction<ServerResponse> routerFunction =
+            RouterFunctions.route(RequestPredicates.path("/"),
+                serverRequest ->
+                    ServerResponse.ok().body(Mono.just("Hello World!"), String.class));
+
+        return routerFunction;
+    }
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(Application.class);
