@@ -2,9 +2,16 @@ package com.example.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
+import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
+import static org.springframework.web.reactive.function.server.RequestPredicates.contentType;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
-import com.example.repository.User;
+import com.example.model.User;
 import com.example.repository.UserRepository;
+import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
@@ -12,7 +19,12 @@ import reactor.core.publisher.Mono;
 
 public class UserController {
 
-    private UserRepository userRepository;
+    public RouterFunction<ServerResponse> routerFunction = route(GET("/user/{id}").and(accept(APPLICATION_JSON)), this::getUser)
+            .andRoute(GET("/users").and(accept(APPLICATION_JSON)), this::getUsers)
+            .andRoute(POST("/user").and(contentType(APPLICATION_JSON)), this::createUser)
+            .andRoute(DELETE("/user").and(contentType(APPLICATION_JSON)), this::deleteUser);
+
+    private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -36,7 +48,6 @@ public class UserController {
         Flux<User> userFlux = userRepository.getUsers();
         return ServerResponse.ok().contentType(APPLICATION_JSON).body(userFlux, User.class);
     }
-
 
     public Mono<ServerResponse> deleteUser(ServerRequest request) {
         Mono<User> user = request.bodyToMono(User.class);

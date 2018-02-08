@@ -1,4 +1,4 @@
-package com.example.repository;
+package com.example.model;
 
 import java.util.Random;
 
@@ -8,6 +8,11 @@ public class User {
 
     public User() {
         id = new Random().nextInt(Integer.MAX_VALUE);
+    }
+
+    public User(String name) {
+        this();
+        this.name = name;
     }
 
     public Integer getId() {
@@ -22,7 +27,7 @@ public class User {
         this.name = name;
     }
 
-    public String toString() {
-        return "{ id: " +id+ ", name: "+name+"}";
+    public String toString(){
+        return "{ id: " + id + ", name: " + name + "}";
     }
 }

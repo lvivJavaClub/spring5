@@ -28,7 +28,7 @@ public class Application {
     }
 
   @Bean
-  RouterFunction<ServerResponse> helloRouterFunction(UserController userController) {
+  RouterFunction<ServerResponse> routerFunction(UserController userController) {
     return RouterFunctions
             .route(path("/users"), userController::getUsers)
             .andRoute(path("/user").and(method(HttpMethod.POST)), userController::createUser)
