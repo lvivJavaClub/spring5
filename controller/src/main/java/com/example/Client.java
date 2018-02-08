@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import com.example.repository.User;
+import com.example.server.TomcatServer;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -26,7 +27,7 @@ public class Client {
     }
 
     public void printAllUsers() {
-        URI uri = URI.create(String.format("http://%s:%d/users", Application.HOST, Application.PORT));
+        URI uri = URI.create(String.format("http://%s:%d/users", TomcatServer.HOST, TomcatServer.PORT));
         ClientRequest request = ClientRequest.method(HttpMethod.GET, uri)
                 .header("accept","application/json")
                 .build();
@@ -39,7 +40,7 @@ public class Client {
     }
 
     public void createUser() {
-        URI uri = URI.create(String.format("http://%s:%d/user", Application.HOST, Application.PORT));
+        URI uri = URI.create(String.format("http://%s:%d/user", TomcatServer.HOST, TomcatServer.PORT));
         User jack = new User("Jack Doe");
 
         ClientRequest request = ClientRequest.method(HttpMethod.POST, uri)
