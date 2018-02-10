@@ -2,7 +2,7 @@
 
 The project is split into two modules: controller and repository
 
-##Controller module contains
+## Controller module contains
 
 - UserController class with router functions,
 - Client class
@@ -11,7 +11,7 @@ The project is split into two modules: controller and repository
     - TomcatServer - starts using Tomcat server
     - NettyServer - starts using Netty server
 
-##Repository module contains
+## Repository module contains
 
 - User POJO object
 - UserRepository class.
