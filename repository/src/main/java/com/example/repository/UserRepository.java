@@ -1,36 +1,16 @@
 package com.example.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.model.User;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public class UserRepository {
-    private List<User> users = new ArrayList<>();
+public interface UserRepository {
 
-    public Mono<Void> add(Mono<User> userMono) {
-        return userMono.doOnNext(user -> {
-            System.out.println("Add user " + user.getName());
-            users.add(user);
-            System.out.println("Users " + users);
-        }).thenEmpty(Mono.empty());
-    }
+    Flux<User> saveAll(Mono<User> userMono);
 
-    public Mono<Void> delete(Mono<User> userMono) {
-        return userMono.doOnNext(user -> {
-            System.out.println("Remove user " + user.getName());
-            users.remove(user);
-            System.out.println("Users " + users);
-        }).thenEmpty(Mono.empty());
-    }
+    Mono<User> findById(String id);
 
-    public Flux<User> getUsers() {
-        return Flux.fromIterable(users);
-    }
+    Flux<User> findAll();
 
-    public Mono<User> getUser(Integer id) {
-        return Mono.justOrEmpty(users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null));
-    }
+    Mono<Void> deleteAll(Mono<User> userMono);
 }

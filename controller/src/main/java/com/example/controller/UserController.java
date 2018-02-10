@@ -31,26 +31,26 @@ public class UserController {
     }
 
     public Mono<ServerResponse> createUser(ServerRequest request) {
-        Mono<User> user = request.bodyToMono(User.class);
-        return ServerResponse.ok().build(userRepository.add(user));
+        Flux<User> userFlux = userRepository.saveAll(request.bodyToMono(User.class));
+        return ServerResponse.ok().contentType(APPLICATION_JSON).body(userFlux, User.class);
     }
 
     public Mono<ServerResponse> getUser(ServerRequest request) {
-        int userId = Integer.valueOf(request.pathVariable("id"));
+        String userId = request.pathVariable("id");
         Mono<ServerResponse> notFound = ServerResponse.notFound().build();
-        Mono<User> userMono = userRepository.getUser(userId);
+        Mono<User> userMono = userRepository.findById(userId);
         return userMono
                 .flatMap(user -> ServerResponse.ok().contentType(APPLICATION_JSON).body(fromObject(user)))
                 .switchIfEmpty(notFound);
     }
 
     public Mono<ServerResponse> getUsers(ServerRequest request) {
-        Flux<User> userFlux = userRepository.getUsers();
+        Flux<User> userFlux = userRepository.findAll();
         return ServerResponse.ok().contentType(APPLICATION_JSON).body(userFlux, User.class);
     }
 
     public Mono<ServerResponse> deleteUser(ServerRequest request) {
         Mono<User> user = request.bodyToMono(User.class);
-        return ServerResponse.ok().build(userRepository.delete(user));
+        return ServerResponse.ok().build(userRepository.deleteAll(user));
     }
 }

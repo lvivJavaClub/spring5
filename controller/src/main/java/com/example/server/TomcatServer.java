@@ -3,7 +3,7 @@ package com.example.server;
 import static org.springframework.web.reactive.function.server.RouterFunctions.toHttpHandler;
 
 import com.example.controller.UserController;
-import com.example.repository.UserRepository;
+import com.example.repository.DummyUserRepository;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.springframework.http.server.reactive.HttpHandler;
@@ -16,7 +16,7 @@ public class TomcatServer {
     public static final int PORT = 8080;
 
     public static void main(String[] args) throws Exception {
-        UserController userController = new UserController(new UserRepository());
+        UserController userController = new UserController(new DummyUserRepository());
         start(userController.routerFunction);
     }
 

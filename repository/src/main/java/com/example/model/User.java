@@ -1,22 +1,27 @@
 package com.example.model;
 
-import java.util.Random;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class User {
-    private Integer id;
+    @Id
+    private String id;
     private String name;
 
     public User() {
-        id = new Random().nextInt(Integer.MAX_VALUE);
     }
 
     public User(String name) {
-        this();
         this.name = name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
