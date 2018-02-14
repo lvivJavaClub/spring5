@@ -1,13 +1,19 @@
 package com.example.model;
 
-import java.util.Random;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
+@Document
 public class User {
-    private Integer id;
+
+    @Id
+    private String id;
     private String name;
 
     public User() {
-        id = new Random().nextInt(Integer.MAX_VALUE);
+        id = UUID.randomUUID().toString();
     }
 
     public User(String name) {
@@ -15,7 +21,7 @@ public class User {
         this.name = name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

@@ -11,10 +11,10 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.ipc.netty.http.server.HttpServer;
 
 public class NettyServer {
-    public static void main(String[] args) {
-        UserController userController = new UserController(new UserRepository());
-        start(userController.routerFunction);
-    }
+//    public static void main(String[] args) {
+//        UserController userController = new UserController(new UserRepository());
+//        start(userController.routerFunction);
+//    }
 
     private static void start(RouterFunction<ServerResponse> routerFunction) {
         HttpHandler httpHandler = toHttpHandler(routerFunction);

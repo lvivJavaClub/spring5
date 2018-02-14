@@ -15,10 +15,10 @@ public class TomcatServer {
     public static final String HOST = "localhost";
     public static final int PORT = 8080;
 
-    public static void main(String[] args) throws Exception {
-        UserController userController = new UserController(new UserRepository());
-        start(userController.routerFunction);
-    }
+//    public static void main(String[] args) throws Exception {
+//        UserController userController = new UserController(new UserRepository());
+//        start(userController.routerFunction);
+//    }
 
     private static void start(RouterFunction<ServerResponse> routerFunction) throws Exception {
         HttpHandler httpHandler = toHttpHandler(routerFunction);

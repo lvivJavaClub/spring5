@@ -6,19 +6,23 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import com.example.controller.UserController;
 import com.example.repository.UserRepository;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-
-@SpringBootApplication
+@EnableReactiveMongoRepositories
 @EnableWebFlux
+@SpringBootApplication
+@AutoConfigureAfter(EmbeddedMongoAutoConfiguration.class)
 public class Application {
 
     public static void main(String[] args) {
@@ -39,7 +43,6 @@ public class Application {
     public static class ProgramaticBeanDefinitionInitializer implements ApplicationContextInitializer<GenericApplicationContext> {
 
         public void initialize(GenericApplicationContext applicationContext) {
-            applicationContext.registerBean(UserRepository.class, UserRepository::new);
             applicationContext.registerBean(UserController.class,
                     () -> new UserController(applicationContext.getBean(UserRepository.class)));
         }
