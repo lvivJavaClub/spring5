@@ -9,16 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>controller</artifactId>
+    <artifactId>server</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.lohika.javaclub</groupId>
-            <artifactId>repository</artifactId>
+            <artifactId>controller</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>8.5.21</version>
         </dependency>
     </dependencies>
 
