@@ -1,19 +1,69 @@
-# Spring5
+# Spring5 Functional Web Framework Sample.
 
-The project is split into two modules: controller and repository
+The project is a sample application that uses the functional web framework introduced in Spring 5.
 
-## Controller module contains
+## Build
 
-- UserController class with router functions,
-- Client class
-- three different cases of server classes (they all starts on the same port so they cant be started simultaneously):
-    - Application - starts as SpringBoot Application
-    - TomcatServer - starts using Tomcat server
-    - NettyServer - starts using Netty server
+Use maven to build this project:
 
-## Repository module contains
+```bash
+mvn clean instal
+```  
 
-- User POJO object
-- UserRepository class.
+## The structure of the project
+
+### Controller module contains
+
+- `UserController` class with router functions.
+- `Application` - starts as SpringBoot Application with Netty server.
+
+### Repository module contains
+
+- `User` POJO object
+- `UserRepository` Mongo reactive crud repository class.
+
+### Server module contains
+
+- `TomcatServer`. Contains a `main` method to start the server using Tomcat server.
+- `NettyServer`. Contains a `main` method to start the server using Reactor Netty server.
+- `Client`. Contains a `main` method to start the client.
+
+## Running
+
+#### As spring boot application
+ - Run the `Application` class
+ 
+#### Reactor Netty server
+ - Run the `NettyServer` class
+
+#### Tomcat server
+ - Run the `TomcatServer` class
+
+#### Client
+ - Run the `Client` class
 
 
+## Useing
+
+### Sample curl commands
+
+Instead of running the client, here are some sample `curl` commands that access resources exposed
+by this sample:
+
+#### Retrieve list of users
+
+```sh
+curl -v 'http://localhost:8080/users'
+```
+
+#### Retrieve user by id 
+
+```sh
+curl -v 'http://localhost:8080/user/{id}'
+```
+
+#### Create new user
+
+```sh
+curl -d '{"name":"Jack Doe"}' -H 'Content-Type: application/json' -v 'http://localhost:8080/user'
+```
