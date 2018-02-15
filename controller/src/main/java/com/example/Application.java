@@ -39,7 +39,7 @@ public class Application {
     public static class ProgramaticBeanDefinitionInitializer implements ApplicationContextInitializer<GenericApplicationContext> {
 
         public void initialize(GenericApplicationContext applicationContext) {
-            applicationContext.registerBean(UserRepository.class, UserRepository::new);
+            //applicationContext.registerBean(UserRepository.class, UserRepository::new);
             applicationContext.registerBean(UserController.class,
                     () -> new UserController(applicationContext.getBean(UserRepository.class)));
         }
