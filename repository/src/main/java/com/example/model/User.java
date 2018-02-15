@@ -1,13 +1,14 @@
 package com.example.model;
 
-import java.util.Random;
+import java.util.UUID;
 
 public class User {
-    private Integer id;
+    private String id;
     private String name;
 
     public User() {
-        id = new Random().nextInt(Integer.MAX_VALUE);
+        // DO NOT DO THIS ON PROD!!! IT IS BLOCKING OPERATION!!!
+        id = UUID.randomUUID().toString();
     }
 
     public User(String name) {
@@ -15,7 +16,7 @@ public class User {
         this.name = name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

@@ -1,14 +1,5 @@
 package com.example.controller;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.web.reactive.function.BodyInserters.fromObject;
-import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
-import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
-import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
-import static org.springframework.web.reactive.function.server.RequestPredicates.contentType;
-import static org.springframework.web.reactive.function.server.RouterFunctions.route;
-
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -16,6 +7,11 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.web.reactive.function.BodyInserters.fromObject;
+import static org.springframework.web.reactive.function.server.RequestPredicates.*;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 public class UserController {
 
@@ -31,26 +27,26 @@ public class UserController {
     }
 
     public Mono<ServerResponse> createUser(ServerRequest request) {
-        Mono<User> user = request.bodyToMono(User.class);
-        return ServerResponse.ok().build(userRepository.add(user));
+        Flux<User> user = request.bodyToFlux(User.class);
+        return ServerResponse.ok().body(userRepository.saveAll(user), User.class);
     }
 
     public Mono<ServerResponse> getUser(ServerRequest request) {
-        int userId = Integer.valueOf(request.pathVariable("id"));
+        String userId = request.pathVariable("id");
         Mono<ServerResponse> notFound = ServerResponse.notFound().build();
-        Mono<User> userMono = userRepository.getUser(userId);
+        Mono<User> userMono = userRepository.findById(userId);
         return userMono
                 .flatMap(user -> ServerResponse.ok().contentType(APPLICATION_JSON).body(fromObject(user)))
                 .switchIfEmpty(notFound);
     }
 
     public Mono<ServerResponse> getUsers(ServerRequest request) {
-        Flux<User> userFlux = userRepository.getUsers();
+        Flux<User> userFlux = userRepository.findAll();
         return ServerResponse.ok().contentType(APPLICATION_JSON).body(userFlux, User.class);
     }
 
     public Mono<ServerResponse> deleteUser(ServerRequest request) {
         Mono<User> user = request.bodyToMono(User.class);
-        return ServerResponse.ok().build(userRepository.delete(user));
+        return ServerResponse.ok().build(userRepository.deleteAll(user));
     }
 }
