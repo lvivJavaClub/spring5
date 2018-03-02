@@ -43,7 +43,7 @@ mvn clean instal
  - Run the `Client` class
 
 
-## Useing
+## Usage
 
 ### Sample curl commands
 
